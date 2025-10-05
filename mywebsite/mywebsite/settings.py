@@ -63,6 +63,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Prevent using back button after logout
+    'mainapp.mymiddleware.NoCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'mywebsite.urls'

@@ -4,9 +4,14 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Alphavilah</title>
-  <meta name="description" content="ALPHAVILAH LTD aims to become a leading exporter of high-quality fruits and vegetables from Tanzania to international markets. We will leverage Tanzania's rich agricultural resources and favorable climate to supply fresh produce to Europe, the Middle East, and Asia. Our business will prioritize sustainability, fair trade practices, and compliance with international food safety standards.">
-  <meta name="keywords" content="ALPHAVILAH,alphavilah,vegetables,fruits,Flour">
+  <title>Alphavilah Ltd | Tanzania Fresh Fruits & Vegetables Exporter</title>
+  <meta name="description" content="Alphavilah Ltd is a trusted exporter of fresh fruits and vegetables from Tanzania to Europe, the Middle East, and Asia. We focus on quality, sustainability, and fair trade, connecting local farmers to global markets.">
+
+  <meta name="keywords" content="Tanzania fruit exporter, Tanzania vegetable exporter, fresh produce Tanzania, Alphavilah, fruits export Africa, vegetables export Africa, sustainable farming Tanzania, fair trade produce exporter">
+
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Alphavilah Ltd">
+  <meta property="og:url" content="https://alphavilah.co.tz/">
 
   <!-- Favicons -->
   <link href="{% static 'assets/img/logo33.png' %}" rel="icon">
@@ -179,12 +184,13 @@
           <a href="{% url 'home' %}" class="logo d-flex align-items-center">
             <span class="sitename">ALPHAVILAH LTD</span>
           </a>
+          {% for a in address %}
           <div class="footer-contact pt-3">
-            <p>P.O.Box 16520</p>
-            <p>Arusha Tanzania</p>
-            <p class="mt-3"><strong>Phone:</strong> <span>+255756682706</span></p>
-            <p><strong>Email:</strong> <span>info@alphavilah.co.tz</span></p>
+            <p>{{ a.address|safe }}</p>
+            <p class="mt-3"><strong>Phone:</strong> <span>{{ a.phone_number }}</span></p>
+            <p><strong>Email:</strong> <span>{{ a.email }}</span></p>
           </div>
+          {% endfor %}
           <div class="social-links d-flex mt-4">
             <a href="#"><i class="bi bi-twitter-x"></i></a>
             <a href="#"><i class="bi bi-facebook"></i></a>
@@ -205,8 +211,8 @@
         <div class="col-lg-2 col-md-3 footer-links">
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="{% url 'products_page' %}">Products</a></li>
-            <li><a href="{% url 'service_page' %}">Services</a></li>
+            <li><a href="https://webmail.alphavilah.co.tz/cpsess1009925113/3rdparty/roundcube/?_task=mail&_mbox=INBOX" target="_blank">Web Mail</a></li>
+            <li><a href="https://cpanel.alphavilah.co.tz/" target="_blank">Mail</a></li>
             <li><a href="{% url 'contact_page' %}">Contact</a></li>
           </ul>
         </div>
@@ -215,7 +221,7 @@
           <h4>Our Newsletter</h4>
           <form action="#" method="#" class="#">
             <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
-            
+
           </form>
         </div>
 
@@ -223,12 +229,12 @@
     </div>
 
     <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> 
-        <strong class="px-1 sitename" id="current-year"></strong> 
+      <p>© <span>Copyright</span>
+        <strong class="px-1 sitename" id="current-year"></strong>
         <span>All Rights Reserved</span>
       </p>
     </div>
-    
+
     <script>
       // This script will set the current year dynamically
       document.getElementById("current-year").textContent = new Date().getFullYear();

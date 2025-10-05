@@ -72,7 +72,7 @@
 body {
   color: var(--default-color);
   background-color: var(--background-color);
-  font-family: var(--default-font);
+  font-family:'Montserrat', sans-serif !important;
 }
 
 a {
@@ -93,7 +93,7 @@ h4,
 h5,
 h6 {
   color: var(--heading-color);
-  font-family: var(--heading-font);
+  font-family:'Montserrat', sans-serif !important;
 }
 
 /*--------------------------------------------------------------
@@ -324,7 +324,7 @@ h6 {
     color: var(--nav-color);
     padding: 18px 15px;
     font-size: 13px;
-    font-family: var(--nav-font);
+    font-family:'Montserrat', sans-serif !important;
     text-transform: uppercase;
     font-weight: 600;
     display: flex;
@@ -444,7 +444,7 @@ h6 {
   .navmenu a:focus {
     color: var(--nav-dropdown-color);
     padding: 10px 20px;
-    font-family: var(--nav-font);
+    font-family:'Montserrat', sans-serif !important;
     font-size: 17px;
     font-weight: 500;
     display: flex;
@@ -565,13 +565,13 @@ h6 {
   font-size: 26px;
   font-weight: 700;
   letter-spacing: 1px;
-  font-family: var(--heading-font);
+  font-family:'Montserrat', sans-serif !important;
   color: var(--heading-color);
 }
 
 .footer .footer-about p {
   font-size: 14px;
-  font-family: var(--heading-font);
+  font-family:'Montserrat', sans-serif !important;
 }
 
 .footer .social-links a {
@@ -1563,7 +1563,7 @@ section,
   margin-bottom: 5px;
   border-radius: 4px;
   transition: all 0.3s ease-in-out;
-  font-family: var(--heading-font);
+  font-family:'Montserrat', sans-serif !important;
 }
 
 .portfolio .portfolio-filters li:hover,
@@ -1695,7 +1695,7 @@ section,
   text-transform: uppercase;
   display: block;
   font-weight: 600;
-  font-family: var(--heading-font);
+  font-family:'Montserrat', sans-serif !important;
 }
 
 .skills .progress .skill .val {
@@ -2147,7 +2147,7 @@ section,
   color: var(--accent-color);
   font-size: 48px;
   font-weight: 700;
-  font-family: var(--heading-font);
+  font-family:'Montserrat', sans-serif !important;
   margin-bottom: 0;
 }
 
@@ -2174,7 +2174,7 @@ section,
   border-radius: 5px;
   font-size: 16px;
   font-weight: 500;
-  font-family: var(--heading-font);
+  font-family:'Montserrat', sans-serif !important;
   transition: 0.3s;
   margin-top: 20px;
   margin-bottom: 6px;

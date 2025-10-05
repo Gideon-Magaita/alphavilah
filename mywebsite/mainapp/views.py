@@ -32,6 +32,7 @@ def home(request):
     choose = ChooseUs.objects.all()
     service = Service.objects.all().order_by('-date')
     freq = Faq.objects.all().order_by('-date')
+    address = AddressModel.objects.all()
     
     # Track visitor per day
     ip = get_client_ip(request)
@@ -47,14 +48,16 @@ def home(request):
         'choose':choose,
         'service':service,
         'news':news_page,
-        'freq':freq
+        'freq':freq,
+        'address':address,
     }
     return render(request,'pages/users/home.html',context)
 
 
 def news_details(request,id):
+    address = AddressModel.objects.all()
     news = News.objects.get(id=id)
-    return render(request,'pages/users/news-details.html',{'news':news})
+    return render(request,'pages/users/news-details.html',{'news':news,'address':address,})
 
 
 def about_page(request):
@@ -63,44 +66,51 @@ def about_page(request):
     vis = Vision.objects.all()
     item = WhereWeAre.objects.all()
     values = Value.objects.all()
+    address = AddressModel.objects.all()
     context={
         'why':why,
         'miss':miss,
         'vis':vis,
         'item':item,
-        'values':values
+        'values':values,
+        'address':address,
     }
     return render(request,'pages/users/about.html',context)
 
 
 
 def service_page(request):
+    address = AddressModel.objects.all()
     service = Service.objects.all().order_by('-date')
     paginator = Paginator(service, 6)  # Show 6 service items per page
 
     page_number = request.GET.get('page')
     service_page = paginator.get_page(page_number)
     context={
-        'service':service_page
+        'service':service_page,
+        'address':address,
     }
     return render(request,'pages/users/service.html',context)
 
 
 
 def products_page(request):
+    address = AddressModel.objects.all()
     products = Product.objects.all().order_by('-date')
     paginator = Paginator(products, 3)  # Show 6 service items per page
 
     page_number = request.GET.get('page')
     products_page = paginator.get_page(page_number)
     context={
-        'products':products_page
+        'products':products_page,
+        'address':address,
     }
     return render(request,'pages/users/products.html',context)
 
 
 
 def contact_page(request):
+    address = AddressModel.objects.all()
     address = AddressModel.objects.all()
     if request.method == 'POST':
         form = ContactForm(request.POST or None)
@@ -114,6 +124,7 @@ def contact_page(request):
         form = ContactForm()
     context = {
         'form': form,
+        'address':address,
         'address':address,
     }
     return render(request,'pages/users/contact.html',context)
