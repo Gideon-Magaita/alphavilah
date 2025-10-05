@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 08, 2025 at 11:03 AM
+-- Host: 127.0.0.1:3306
+-- Generation Time: Oct 05, 2025 at 09:37 AM
 -- Server version: 11.6.2-MariaDB
--- PHP Version: 8.1.12
+-- PHP Version: 7.3.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,10 +27,13 @@ SET time_zone = "+00:00";
 -- Table structure for table `auth_group`
 --
 
-CREATE TABLE `auth_group` (
-  `id` int(11) NOT NULL,
-  `name` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+DROP TABLE IF EXISTS `auth_group`;
+CREATE TABLE IF NOT EXISTS `auth_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `auth_group`
@@ -45,10 +48,14 @@ INSERT INTO `auth_group` (`id`, `name`) VALUES
 -- Table structure for table `auth_group_permissions`
 --
 
-CREATE TABLE `auth_group_permissions` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `auth_group_permissions`;
+CREATE TABLE IF NOT EXISTS `auth_group_permissions` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
+  KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 -- --------------------------------------------------------
@@ -57,12 +64,15 @@ CREATE TABLE `auth_group_permissions` (
 -- Table structure for table `auth_permission`
 --
 
-CREATE TABLE `auth_permission` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `auth_permission`;
+CREATE TABLE IF NOT EXISTS `auth_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `content_type_id` int(11) NOT NULL,
-  `codename` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `codename` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`)
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `auth_permission`
@@ -160,8 +170,9 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 -- Table structure for table `auth_user`
 --
 
-CREATE TABLE `auth_user` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `auth_user`;
+CREATE TABLE IF NOT EXISTS `auth_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `password` varchar(128) NOT NULL,
   `last_login` datetime(6) DEFAULT NULL,
   `is_superuser` tinyint(1) NOT NULL,
@@ -171,8 +182,10 @@ CREATE TABLE `auth_user` (
   `email` varchar(254) NOT NULL,
   `is_staff` tinyint(1) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
-  `date_joined` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `date_joined` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `auth_user`
@@ -180,7 +193,7 @@ CREATE TABLE `auth_user` (
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
 (1, 'pbkdf2_sha256$1000000$7czEOPY3F4Tvafu7qPiKXo$26rBY9WAioe54q7a8Q+OM9ZHphLBjTEljFyCwborTYc=', '2025-04-07 23:44:56.799309', 1, 'admin', '', '', '', 1, 1, '2025-04-07 23:44:36.169798'),
-(2, 'pbkdf2_sha256$1000000$WPZhfXw2tAeoRwe12R7wLb$b4CrTklqw2GTOn6EHm7T+bjL11fnVmgnV7B9P8068O0=', '2025-04-08 08:27:25.164481', 0, 'alphavilah', '', '', '', 0, 1, '2025-04-07 23:45:54.000000');
+(2, 'pbkdf2_sha256$1000000$WPZhfXw2tAeoRwe12R7wLb$b4CrTklqw2GTOn6EHm7T+bjL11fnVmgnV7B9P8068O0=', '2025-10-05 09:36:08.226557', 0, 'alphavilah', '', '', '', 0, 1, '2025-04-07 23:45:54.000000');
 
 -- --------------------------------------------------------
 
@@ -188,11 +201,15 @@ INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `userna
 -- Table structure for table `auth_user_groups`
 --
 
-CREATE TABLE `auth_user_groups` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `auth_user_groups`;
+CREATE TABLE IF NOT EXISTS `auth_user_groups` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_user_groups_user_id_group_id_94350c0c_uniq` (`user_id`,`group_id`),
+  KEY `auth_user_groups_group_id_97559544_fk_auth_group_id` (`group_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `auth_user_groups`
@@ -207,10 +224,14 @@ INSERT INTO `auth_user_groups` (`id`, `user_id`, `group_id`) VALUES
 -- Table structure for table `auth_user_user_permissions`
 --
 
-CREATE TABLE `auth_user_user_permissions` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `auth_user_user_permissions`;
+CREATE TABLE IF NOT EXISTS `auth_user_user_permissions` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_user_user_permissions_user_id_permission_id_14a6b632_uniq` (`user_id`,`permission_id`),
+  KEY `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 -- --------------------------------------------------------
@@ -219,16 +240,20 @@ CREATE TABLE `auth_user_user_permissions` (
 -- Table structure for table `django_admin_log`
 --
 
-CREATE TABLE `django_admin_log` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `django_admin_log`;
+CREATE TABLE IF NOT EXISTS `django_admin_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `action_time` datetime(6) NOT NULL,
   `object_id` longtext DEFAULT NULL,
   `object_repr` varchar(200) NOT NULL,
   `action_flag` smallint(5) UNSIGNED NOT NULL CHECK (`action_flag` >= 0),
   `change_message` longtext NOT NULL,
   `content_type_id` int(11) DEFAULT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
+  KEY `django_admin_log_user_id_c564eba6_fk_auth_user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `django_admin_log`
@@ -245,11 +270,14 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 -- Table structure for table `django_content_type`
 --
 
-CREATE TABLE `django_content_type` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `django_content_type`;
+CREATE TABLE IF NOT EXISTS `django_content_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `app_label` varchar(100) NOT NULL,
-  `model` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `model` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `django_content_type`
@@ -284,12 +312,14 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 -- Table structure for table `django_migrations`
 --
 
-CREATE TABLE `django_migrations` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `django_migrations`;
+CREATE TABLE IF NOT EXISTS `django_migrations` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `app` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `applied` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `applied` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `django_migrations`
@@ -331,11 +361,21 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 -- Table structure for table `django_session`
 --
 
-CREATE TABLE `django_session` (
+DROP TABLE IF EXISTS `django_session`;
+CREATE TABLE IF NOT EXISTS `django_session` (
   `session_key` varchar(40) NOT NULL,
   `session_data` longtext NOT NULL,
-  `expire_date` datetime(6) NOT NULL
+  `expire_date` datetime(6) NOT NULL,
+  PRIMARY KEY (`session_key`),
+  KEY `django_session_expire_date_a5c62663` (`expire_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Dumping data for table `django_session`
+--
+
+INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
+('kknw2y3n1o99nwzbauytpdilj3fvu414', '.eJxVjDsOwjAQBe_iGlm2s_5R0ucMlte74ABypDipEHeHSCmgfTPzXiLlba1p67ykicRZGHH63TCXB7cd0D232yzL3NZlQrkr8qBdjjPx83K4fwc19_qtg3eYyVqPHrTRCop1SrEH0gxFU8gYnQ_s4sBxcC5EG8jANTAqBGTx_gDD8zdb:1u3B9q:7iKRBkEZ1dhnAm7XGYNbRF13GYKjIEkZRhx3My3NEIk', '2025-04-25 09:58:46.337145');
 
 -- --------------------------------------------------------
 
@@ -343,12 +383,14 @@ CREATE TABLE `django_session` (
 -- Table structure for table `mainapp_addressmodel`
 --
 
-CREATE TABLE `mainapp_addressmodel` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `mainapp_addressmodel`;
+CREATE TABLE IF NOT EXISTS `mainapp_addressmodel` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `address` longtext NOT NULL,
   `phone_number` varchar(13) NOT NULL,
-  `email` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `email` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `mainapp_addressmodel`
@@ -363,20 +405,22 @@ INSERT INTO `mainapp_addressmodel` (`id`, `address`, `phone_number`, `email`) VA
 -- Table structure for table `mainapp_chooseus`
 --
 
-CREATE TABLE `mainapp_chooseus` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `mainapp_chooseus`;
+CREATE TABLE IF NOT EXISTS `mainapp_chooseus` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL,
   `description` longtext NOT NULL,
   `image` varchar(200) NOT NULL,
-  `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `mainapp_chooseus`
 --
 
 INSERT INTO `mainapp_chooseus` (`id`, `title`, `description`, `image`, `date`) VALUES
-(1, 'Why Choose Us', '<p style=\"text-align:justify\"><span style=\"font-size:16px\"><strong>ALPHAVILAH LTD</strong>&nbsp;is a Tanzania-based agricultural export company specializing in tropical fruits and vegetables. We work closely with local farmers to ensure quality production and maintain a reliable supply chain. The company operates in the Arusha and Kilimanjaro regions, focusing on the production of melons, watermelons, and sweet potatoes.</span></p>\r\n\r\n<p style=\"text-align:justify\"><span style=\"font-size:16px\"><strong>Operational Plan</strong></span></p>\r\n\r\n<ul>\r\n	<li>\r\n	<p style=\"text-align:justify\"><span style=\"font-size:16px\"><strong>Sourcing:</strong>&nbsp;100% of the production comes from privately held farms.</span></p>\r\n	</li>\r\n	<li>\r\n	<p style=\"text-align:justify\"><span style=\"font-size:16px\"><strong>Processing &amp; Packaging:</strong>&nbsp;We establish a processing facility for cleaning, sorting, and packaging fresh produce in accordance with international standards.</span></p>\r\n	</li>\r\n	<li>\r\n	<p style=\"text-align:justify\"><span style=\"font-size:16px\"><strong>Logistics &amp; Shipping:</strong>&nbsp;We collaborate with logistics companies for air and sea freight to ensure efficient and timely delivery.</span></p>\r\n	</li>\r\n</ul>\r\n\r\n<p style=\"text-align:justify\"><span style=\"font-size:16px\"><strong>Legal and Regulatory Considerations</strong></span></p>\r\n\r\n<ul>\r\n	<li>\r\n	<p style=\"text-align:justify\"><span style=\"font-size:16px\"><strong>Export Licensing:</strong>&nbsp;We comply with Tanzania&rsquo;s export regulations and obtain all necessary permits.</span></p>\r\n	</li>\r\n	<li>\r\n	<p style=\"text-align:justify\"><span style=\"font-size:16px\"><strong>International Standards:</strong>&nbsp;We pursue certifications such as GlobalG.A.P, SMETA, and HACCP to meet international food safety requirements.</span></p>\r\n	</li>\r\n	<li>\r\n	<p style=\"text-align:justify\"><span style=\"font-size:16px\"><strong>Trade Agreements:</strong>&nbsp;We leverage trade agreements, including the EU&rsquo;s Economic Partnership Agreement (EPA), to benefit from preferential market access.</span></p>\r\n	</li>\r\n</ul>', 'images/passion_fruits3.jpg', '2025-04-08');
+(1, 'Why Choose Us', '<p style=\"text-align:justify\"><span style=\"font-size:18px\"><strong>ALPHAVILAH LTD</strong>&nbsp;is a Tanzania-based agricultural export company specializing in tropical fruits and vegetables. We work closely with local farmers to ensure quality production and maintain a reliable supply chain. The company operates in the Arusha and Kilimanjaro regions, focusing on the production of melons, watermelons, and sweet potatoes.</span></p>\r\n\r\n<p style=\"text-align:justify\"><span style=\"font-size:18px\"><strong>Operational Plan</strong></span></p>\r\n\r\n<ul>\r\n	<li>\r\n	<p style=\"text-align:justify\"><span style=\"font-size:18px\"><strong>Sourcing:</strong>&nbsp;100% of the production comes from privately held farms.</span></p>\r\n	</li>\r\n	<li>\r\n	<p style=\"text-align:justify\"><span style=\"font-size:18px\"><strong>Processing &amp; Packaging:</strong>&nbsp;We establish a processing facility for cleaning, sorting, and packaging fresh produce in accordance with international standards.</span></p>\r\n	</li>\r\n	<li>\r\n	<p style=\"text-align:justify\"><span style=\"font-size:18px\"><strong>Logistics &amp; Shipping:</strong>&nbsp;We collaborate with logistics companies for air and sea freight to ensure efficient and timely delivery.</span></p>\r\n	</li>\r\n</ul>\r\n\r\n<p style=\"text-align:justify\"><span style=\"font-size:18px\"><strong>Legal and Regulatory Considerations</strong></span></p>\r\n\r\n<ul>\r\n	<li>\r\n	<p style=\"text-align:justify\"><span style=\"font-size:18px\"><strong>Export Licensing:</strong>&nbsp;We comply with Tanzania&rsquo;s export regulations and obtain all necessary permits.</span></p>\r\n	</li>\r\n	<li>\r\n	<p style=\"text-align:justify\"><span style=\"font-size:18px\"><strong>International Standards:</strong>&nbsp;We pursue certifications such as GlobalG.A.P, SMETA, and HACCP to meet international food safety requirements.</span></p>\r\n	</li>\r\n	<li>\r\n	<p style=\"text-align:justify\"><span style=\"font-size:18px\"><strong>Trade Agreements:</strong>&nbsp;We leverage trade agreements, including the EU&rsquo;s Economic Partnership Agreement (EPA), to benefit from preferential market access.</span></p>\r\n	</li>\r\n</ul>', 'images/passion_fruits3.jpg', '2025-04-08');
 
 -- --------------------------------------------------------
 
@@ -384,14 +428,17 @@ INSERT INTO `mainapp_chooseus` (`id`, `title`, `description`, `image`, `date`) V
 -- Table structure for table `mainapp_contact`
 --
 
-CREATE TABLE `mainapp_contact` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `mainapp_contact`;
+CREATE TABLE IF NOT EXISTS `mainapp_contact` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `full_name` varchar(200) NOT NULL,
   `email` varchar(200) NOT NULL,
   `subject` varchar(200) NOT NULL,
   `message` longtext NOT NULL,
-  `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `date` date NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `mainapp_contact`
@@ -406,12 +453,14 @@ INSERT INTO `mainapp_contact` (`id`, `full_name`, `email`, `subject`, `message`,
 -- Table structure for table `mainapp_faq`
 --
 
-CREATE TABLE `mainapp_faq` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `mainapp_faq`;
+CREATE TABLE IF NOT EXISTS `mainapp_faq` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `question` varchar(200) NOT NULL,
   `answer` longtext NOT NULL,
-  `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `mainapp_faq`
@@ -429,13 +478,15 @@ INSERT INTO `mainapp_faq` (`id`, `question`, `answer`, `date`) VALUES
 -- Table structure for table `mainapp_mission`
 --
 
-CREATE TABLE `mainapp_mission` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `mainapp_mission`;
+CREATE TABLE IF NOT EXISTS `mainapp_mission` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL,
   `description` longtext NOT NULL,
   `date` date NOT NULL,
-  `image` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `image` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `mainapp_mission`
@@ -450,14 +501,16 @@ INSERT INTO `mainapp_mission` (`id`, `title`, `description`, `date`, `image`) VA
 -- Table structure for table `mainapp_news`
 --
 
-CREATE TABLE `mainapp_news` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `mainapp_news`;
+CREATE TABLE IF NOT EXISTS `mainapp_news` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL,
   `description` longtext NOT NULL,
   `image` varchar(200) NOT NULL,
   `status` varchar(200) NOT NULL,
-  `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `mainapp_news`
@@ -474,12 +527,14 @@ INSERT INTO `mainapp_news` (`id`, `title`, `description`, `image`, `status`, `da
 -- Table structure for table `mainapp_product`
 --
 
-CREATE TABLE `mainapp_product` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `mainapp_product`;
+CREATE TABLE IF NOT EXISTS `mainapp_product` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `description` longtext NOT NULL,
   `image` varchar(200) NOT NULL,
-  `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `mainapp_product`
@@ -496,12 +551,14 @@ INSERT INTO `mainapp_product` (`id`, `description`, `image`, `date`) VALUES
 -- Table structure for table `mainapp_service`
 --
 
-CREATE TABLE `mainapp_service` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `mainapp_service`;
+CREATE TABLE IF NOT EXISTS `mainapp_service` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `description` longtext NOT NULL,
   `image` varchar(200) NOT NULL,
-  `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `mainapp_service`
@@ -521,13 +578,15 @@ INSERT INTO `mainapp_service` (`id`, `description`, `image`, `date`) VALUES
 -- Table structure for table `mainapp_slider`
 --
 
-CREATE TABLE `mainapp_slider` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `mainapp_slider`;
+CREATE TABLE IF NOT EXISTS `mainapp_slider` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL,
   `sub_title` longtext NOT NULL,
   `image` varchar(200) NOT NULL,
-  `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `mainapp_slider`
@@ -545,20 +604,22 @@ INSERT INTO `mainapp_slider` (`id`, `title`, `sub_title`, `image`, `date`) VALUE
 -- Table structure for table `mainapp_story`
 --
 
-CREATE TABLE `mainapp_story` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `mainapp_story`;
+CREATE TABLE IF NOT EXISTS `mainapp_story` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL,
   `description` longtext NOT NULL,
   `image` varchar(200) NOT NULL,
-  `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `mainapp_story`
 --
 
 INSERT INTO `mainapp_story` (`id`, `title`, `description`, `image`, `date`) VALUES
-(1, 'Our Story', '<p style=\"text-align:justify\"><span style=\"font-size:16px\"><strong>ALPHAVILAH LTD</strong>&nbsp;aims to become a leading exporter of high-quality fruits and vegetables from Tanzania to international markets. We leverage Tanzania&#39;s rich agricultural resources and favorable climate to supply fresh produce to Europe, the Middle East, and Asia. Our business prioritizes sustainability, fair trade practices, and compliance with international food safety standards.</span></p>\r\n\r\n<p style=\"text-align:justify\"><span style=\"font-size:16px\"><strong>ALPHAVILAH LTD&nbsp;</strong>is well-positioned to capitalize on Tanzania&rsquo;s agricultural potential and the growing international demand for fresh produce. With a strategic focus on quality, sustainability, and efficient supply chains, we establish a strong presence in the global market while supporting local farmers and contributing to the Tanzanian economy.</span></p>', 'images/1715078182547.jpg', '2025-04-08');
+(1, 'Our Story', '<p style=\"text-align:justify\"><span style=\"font-family:Arial,Helvetica,sans-serif\"><span style=\"font-size:18px\"><strong>ALPHAVILAH LTD</strong>&nbsp;aims to become a leading exporter of high-quality fruits and vegetables from Tanzania to international markets. We leverage Tanzania&#39;s rich agricultural resources and favorable climate to supply fresh produce to Europe, the Middle East, and Asia. Our business prioritizes sustainability, fair trade practices, and compliance with international food safety standards.</span></span></p>\r\n\r\n<p style=\"text-align:justify\"><span style=\"font-family:Arial,Helvetica,sans-serif\"><span style=\"font-size:18px\"><strong>ALPHAVILAH LTD&nbsp;</strong>is well-positioned to capitalize on Tanzania&rsquo;s agricultural potential and the growing international demand for fresh produce. With a strategic focus on quality, sustainability, and efficient supply chains, we establish a strong presence in the global market while supporting local farmers and contributing to the Tanzanian economy.</span></span></p>', 'images/1715078182547.jpg', '2025-04-08');
 
 -- --------------------------------------------------------
 
@@ -566,12 +627,14 @@ INSERT INTO `mainapp_story` (`id`, `title`, `description`, `image`, `date`) VALU
 -- Table structure for table `mainapp_value`
 --
 
-CREATE TABLE `mainapp_value` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `mainapp_value`;
+CREATE TABLE IF NOT EXISTS `mainapp_value` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL,
   `description` longtext NOT NULL,
-  `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `mainapp_value`
@@ -586,13 +649,15 @@ INSERT INTO `mainapp_value` (`id`, `title`, `description`, `date`) VALUES
 -- Table structure for table `mainapp_vision`
 --
 
-CREATE TABLE `mainapp_vision` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `mainapp_vision`;
+CREATE TABLE IF NOT EXISTS `mainapp_vision` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL,
   `description` longtext NOT NULL,
   `date` date NOT NULL,
-  `image` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `image` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `mainapp_vision`
@@ -607,11 +672,13 @@ INSERT INTO `mainapp_vision` (`id`, `title`, `description`, `date`, `image`) VAL
 -- Table structure for table `mainapp_visitor`
 --
 
-CREATE TABLE `mainapp_visitor` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `mainapp_visitor`;
+CREATE TABLE IF NOT EXISTS `mainapp_visitor` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `ip_address` char(39) NOT NULL,
-  `visit_time` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `visit_time` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `mainapp_visitor`
@@ -619,7 +686,10 @@ CREATE TABLE `mainapp_visitor` (
 
 INSERT INTO `mainapp_visitor` (`id`, `ip_address`, `visit_time`) VALUES
 (1, '127.0.0.1', '2025-04-07 23:42:09.278207'),
-(2, '127.0.0.1', '2025-04-08 00:04:37.398731');
+(2, '127.0.0.1', '2025-04-08 00:04:37.398731'),
+(3, '127.0.0.1', '2025-04-10 05:09:58.509115'),
+(4, '127.0.0.1', '2025-04-11 09:46:57.540854'),
+(5, '127.0.0.1', '2025-10-05 08:44:32.181880');
 
 -- --------------------------------------------------------
 
@@ -627,12 +697,14 @@ INSERT INTO `mainapp_visitor` (`id`, `ip_address`, `visit_time`) VALUES
 -- Table structure for table `mainapp_whereweare`
 --
 
-CREATE TABLE `mainapp_whereweare` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `mainapp_whereweare`;
+CREATE TABLE IF NOT EXISTS `mainapp_whereweare` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL,
   `description` longtext NOT NULL,
-  `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `mainapp_whereweare`
@@ -647,13 +719,15 @@ INSERT INTO `mainapp_whereweare` (`id`, `title`, `description`, `date`) VALUES
 -- Table structure for table `mainapp_whyus`
 --
 
-CREATE TABLE `mainapp_whyus` (
-  `id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `mainapp_whyus`;
+CREATE TABLE IF NOT EXISTS `mainapp_whyus` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL,
   `description` longtext NOT NULL,
   `image` varchar(200) NOT NULL,
-  `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  `date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `mainapp_whyus`
@@ -661,322 +735,6 @@ CREATE TABLE `mainapp_whyus` (
 
 INSERT INTO `mainapp_whyus` (`id`, `title`, `description`, `image`, `date`) VALUES
 (1, 'Why Alphavilah', '<h2 style=\"text-align:justify\"><span style=\"font-size:16px\">We pursue excellence by continuously evaluating our performance to measure growth. Teamwork is at the heart of our success guided by humility, responsibility, leadership, and respect to meet and exceed customer expectations. Our customers are our reason for being, and we listen with empathy to understand their needs and take meaningful action.<br />\r\nThrough continuous improvement, we embrace perseverance, innovation, and creativity to drive progress. We uphold integrity in all our relationships with employees and their families, business partners, local communities, and the environment.</span></h2>', 'images/p8_6qQwRFg.jpg', '2025-04-08');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `auth_group`
---
-ALTER TABLE `auth_group`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indexes for table `auth_group_permissions`
---
-ALTER TABLE `auth_group_permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
-  ADD KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`);
-
---
--- Indexes for table `auth_permission`
---
-ALTER TABLE `auth_permission`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`);
-
---
--- Indexes for table `auth_user`
---
-ALTER TABLE `auth_user`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
-
---
--- Indexes for table `auth_user_groups`
---
-ALTER TABLE `auth_user_groups`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `auth_user_groups_user_id_group_id_94350c0c_uniq` (`user_id`,`group_id`),
-  ADD KEY `auth_user_groups_group_id_97559544_fk_auth_group_id` (`group_id`);
-
---
--- Indexes for table `auth_user_user_permissions`
---
-ALTER TABLE `auth_user_user_permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `auth_user_user_permissions_user_id_permission_id_14a6b632_uniq` (`user_id`,`permission_id`),
-  ADD KEY `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id`);
-
---
--- Indexes for table `django_admin_log`
---
-ALTER TABLE `django_admin_log`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
-  ADD KEY `django_admin_log_user_id_c564eba6_fk_auth_user_id` (`user_id`);
-
---
--- Indexes for table `django_content_type`
---
-ALTER TABLE `django_content_type`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`);
-
---
--- Indexes for table `django_migrations`
---
-ALTER TABLE `django_migrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `django_session`
---
-ALTER TABLE `django_session`
-  ADD PRIMARY KEY (`session_key`),
-  ADD KEY `django_session_expire_date_a5c62663` (`expire_date`);
-
---
--- Indexes for table `mainapp_addressmodel`
---
-ALTER TABLE `mainapp_addressmodel`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `mainapp_chooseus`
---
-ALTER TABLE `mainapp_chooseus`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `mainapp_contact`
---
-ALTER TABLE `mainapp_contact`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
--- Indexes for table `mainapp_faq`
---
-ALTER TABLE `mainapp_faq`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `mainapp_mission`
---
-ALTER TABLE `mainapp_mission`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `mainapp_news`
---
-ALTER TABLE `mainapp_news`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `mainapp_product`
---
-ALTER TABLE `mainapp_product`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `mainapp_service`
---
-ALTER TABLE `mainapp_service`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `mainapp_slider`
---
-ALTER TABLE `mainapp_slider`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `mainapp_story`
---
-ALTER TABLE `mainapp_story`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `mainapp_value`
---
-ALTER TABLE `mainapp_value`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `mainapp_vision`
---
-ALTER TABLE `mainapp_vision`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `mainapp_visitor`
---
-ALTER TABLE `mainapp_visitor`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `mainapp_whereweare`
---
-ALTER TABLE `mainapp_whereweare`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `mainapp_whyus`
---
-ALTER TABLE `mainapp_whyus`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `auth_group`
---
-ALTER TABLE `auth_group`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `auth_group_permissions`
---
-ALTER TABLE `auth_group_permissions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `auth_permission`
---
-ALTER TABLE `auth_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
-
---
--- AUTO_INCREMENT for table `auth_user`
---
-ALTER TABLE `auth_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `auth_user_groups`
---
-ALTER TABLE `auth_user_groups`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `auth_user_user_permissions`
---
-ALTER TABLE `auth_user_user_permissions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `django_admin_log`
---
-ALTER TABLE `django_admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `django_content_type`
---
-ALTER TABLE `django_content_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
-
---
--- AUTO_INCREMENT for table `django_migrations`
---
-ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
-
---
--- AUTO_INCREMENT for table `mainapp_addressmodel`
---
-ALTER TABLE `mainapp_addressmodel`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `mainapp_chooseus`
---
-ALTER TABLE `mainapp_chooseus`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `mainapp_contact`
---
-ALTER TABLE `mainapp_contact`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `mainapp_faq`
---
-ALTER TABLE `mainapp_faq`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `mainapp_mission`
---
-ALTER TABLE `mainapp_mission`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `mainapp_news`
---
-ALTER TABLE `mainapp_news`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `mainapp_product`
---
-ALTER TABLE `mainapp_product`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `mainapp_service`
---
-ALTER TABLE `mainapp_service`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `mainapp_slider`
---
-ALTER TABLE `mainapp_slider`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `mainapp_story`
---
-ALTER TABLE `mainapp_story`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `mainapp_value`
---
-ALTER TABLE `mainapp_value`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `mainapp_vision`
---
-ALTER TABLE `mainapp_vision`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `mainapp_visitor`
---
-ALTER TABLE `mainapp_visitor`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `mainapp_whereweare`
---
-ALTER TABLE `mainapp_whereweare`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `mainapp_whyus`
---
-ALTER TABLE `mainapp_whyus`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
